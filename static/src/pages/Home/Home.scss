@@ -1,0 +1,40 @@
+#Home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.content_wrapper {
+  display: flex;
+  padding-top: 20px;
+  background-color: #fff;
+  width: 1300px;
+  text-align: left;
+  flex-direction: column;
+  width: 100vw;
+  align-items: center;
+  box-sizing: border-box;
+
+  @media screen and (max-width: 600px) {
+    text-align: center;
+
+  }
+
+  .content {
+    max-width: 1300px;
+    width: 100%;
+    padding-left: 20px;
+    box-sizing: border-box;
+
+
+    h1 {
+      font-size: 55px;
+      width: 100%;
+
+      @media screen and (max-width: 1240px) {
+        font-size: 40px;
+      }
+    }
+  }
+}
