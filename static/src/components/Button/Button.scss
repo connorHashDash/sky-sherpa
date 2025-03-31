@@ -1,0 +1,31 @@
+$logo_color: #87ceebff;
+
+.button_link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.button {
+  all: unset;
+  background-color: #87ceebff;
+  border: 1px solid white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-align: center;
+  min-width: 80px;
+  transition: 0.3s;
+  cursor: pointer;
+  color: #fff;
+
+  &.top {
+    background-color: transparent;
+
+    &:hover {
+      background-color: $logo_color;
+
+    }
+  }
+
+
+
+}

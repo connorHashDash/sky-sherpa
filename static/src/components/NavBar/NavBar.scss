@@ -1,0 +1,54 @@
+$font: "Montserrat";
+
+#nav_holder {
+  width: 100vw;
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+
+  &.home {
+    background: linear-gradient(90deg, rgba(0, 116, 240, 1) 0%, rgba(0, 192, 240, 1) 100%);
+
+  }
+
+  &.top_home {
+    background: linear-gradient(90deg, rgba(0, 116, 240, 1) 0%, rgba(0, 192, 240, 1) 100%);
+
+  }
+
+  &.generic {
+    background: #fff;
+  }
+
+  #Nav_bar {
+    color: white;
+    font-family: $font;
+    display: flex;
+    width: 1300px;
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem 0 2rem;
+
+    #nav_logo {
+      cursor: pointer;
+
+      #logo_img {
+        width: 150px;
+
+        @media screen and (max-width: 600px) {
+          width: 90px;
+
+        }
+      }
+    }
+
+  }
+
+}
