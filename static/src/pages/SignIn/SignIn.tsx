@@ -1,6 +1,6 @@
 import NavBar from "../../components/NavBar/NavBar.tsx"
 import "./SignIn.scss"
-import Button from "../../components/Button/Button.tsx"
+import SignInForm from "./components/SignInForm.tsx"
 import { useState } from 'react'
 import { useNavigate } from "react-router"
 
@@ -9,8 +9,8 @@ export default function SignIn() {
 
   const navigate = useNavigate()
 
+  const [showSignIn, setShowSignIn] = useState<boolean>(true)
   const [error, setError] = useState<string>()
-
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -25,6 +25,8 @@ export default function SignIn() {
       })
       if (resp.ok) {
         navigate("/works")
+      } else if (resp.status == 406) {
+        setError("Error signing in, check password or email")
       }
     }
     catch {
@@ -32,23 +34,29 @@ export default function SignIn() {
     }
   }
 
+  const handleSiginSignUp = () => {
+    setShowSignIn(!showSignIn)
+  }
+
   return (
     <div id="sign_in">
       <NavBar isSignin={true} />
       <div id="form_holder">
         <div id="signin_form">
-          <form onSubmit={login}>
-            <h3>Sign in</h3>
-            <label htmlFor="email">Email</label>
-            <input type="text" name="email" id="signin_email" />
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" id="signin_pw" />
-            <Button type="submit">Sign in</Button>
-
-          </form>
+          <h3 id="sign_in_or_up">
+            <span onClick={handleSiginSignUp} id={`sign_in_button`} className={showSignIn ? "active" : ''}>
+              Sign in
+            </span>/ <br /> <span
+              onClick={handleSiginSignUp}
+              id="sign_up_button"
+              className={!showSignIn ? "active" : ''}>
+              Sign up
+            </span>
+          </h3>
+          <SignInForm login={login} />
           {error && (
             <div id="error">
-
+              {error}
             </div>
           )
           }

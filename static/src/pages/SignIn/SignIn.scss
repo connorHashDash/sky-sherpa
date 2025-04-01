@@ -22,7 +22,7 @@ $font: "Montserrat";
       height: 400px;
       //      border: 1px black solid;
       border-radius: 5px;
-      width: 50rem;
+      width: 270px;
       justify-content: top;
       align-items: center;
       background-color: white;
@@ -37,6 +37,25 @@ $font: "Montserrat";
         width: 100%;
         margin: 0;
         margin-bottom: 20px;
+        line-height: 32px;
+        color: grey;
+        cursor: pointer;
+      }
+
+      #sign_in_button {
+
+        &.active {
+          cursor: default;
+          color: black;
+        }
+      }
+
+      #sign_up_button {
+
+        &.active {
+          cursor: default;
+          color: black;
+        }
       }
 
       label {
@@ -56,10 +75,18 @@ $font: "Montserrat";
         align-self: right;
       }
 
+      .signin_button {
+        margin-top: 20px;
+      }
+
 
 
     }
 
+  }
+
+  #error {
+    color: red;
   }
 
 }
