@@ -1,0 +1,12 @@
+# ignore air config file
+.air.toml
+
+# ignore temp files created by air
+tmp/
+
+# built files
+static/
+
+# config file shows sensitive info
+config.json
+/config.json
