@@ -3,6 +3,7 @@ import "./SignIn.scss"
 import SignInForm from "./components/SignInForm.tsx"
 import { useState } from 'react'
 import { useNavigate } from "react-router"
+import SignUpForm from "./components/SignUpForm.tsx"
 
 
 export default function SignIn() {
@@ -44,16 +45,22 @@ export default function SignIn() {
       <div id="form_holder">
         <div id="signin_form">
           <h3 id="sign_in_or_up">
-            <span onClick={handleSiginSignUp} id={`sign_in_button`} className={showSignIn ? "active" : ''}>
+            <span onClick={handleSiginSignUp}
+              id={`sign_in_button`}
+              className={"form_header" + (showSignIn ? " active" : '')}>
               Sign in
-            </span>/ <br /> <span
+            </span> <br /> <span
               onClick={handleSiginSignUp}
               id="sign_up_button"
-              className={!showSignIn ? "active" : ''}>
+              className={"form_header" + (!showSignIn ? " active" : '')}>
               Sign up
             </span>
           </h3>
-          <SignInForm login={login} />
+          {showSignIn ?
+            <SignInForm login={login} /> :
+            <SignUpForm />
+          }
+
           {error && (
             <div id="error">
               {error}

@@ -33,28 +33,26 @@ $font: "Montserrat";
       }
 
       h3 {
-        font-size: 35px;
+        font-size: 19px;
         width: 100%;
         margin: 0;
         margin-bottom: 20px;
-        line-height: 32px;
+        line-height: 28px;
         color: grey;
         cursor: pointer;
-      }
+        transition: 3s;
+        height: 65px;
 
-      #sign_in_button {
+        .form_header {
 
-        &.active {
-          cursor: default;
-          color: black;
-        }
-      }
+          font-size: 19px;
+          transition: .3s;
 
-      #sign_up_button {
-
-        &.active {
-          cursor: default;
-          color: black;
+          &.active {
+            font-size: 35px;
+            cursor: default;
+            color: black;
+          }
         }
       }
 
