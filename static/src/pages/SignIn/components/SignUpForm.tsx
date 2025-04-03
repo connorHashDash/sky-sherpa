@@ -1,11 +1,15 @@
-import { useState } from "react"
+import { FormEventHandler, useState } from "react"
 import Button from "../../../components/Button/Button"
 
-export default function SignUpForm() {
-  const [errors, SetError] = useState(null)
+interface Props {
+  signup: FormEventHandler
+}
+
+export default function SignUpForm({ signup }: Props) {
+  //  const [errors, SetError] = useState(null)
 
   return (
-    <form>
+    <form onSubmit={signup}>
       <label htmlFor="email">Email</label>
       <input required type="text" name="email" id="" />
       <label htmlFor="fname">First Name</label>
