@@ -35,6 +35,10 @@ export default function SignIn() {
     }
   }
 
+  const signup = () => {
+    // sign up logic here
+  }
+
   const handleSiginSignUp = () => {
     setShowSignIn(!showSignIn)
   }
@@ -42,24 +46,29 @@ export default function SignIn() {
   return (
     <div id="sign_in">
       <NavBar isSignin={true} />
-      <div id="form_holder">
+      <div id="form_holder" className="su_form">
         <div id="signin_form">
-          <h3 id="sign_in_or_up">
-            <span onClick={handleSiginSignUp}
-              id={`sign_in_button`}
-              className={"form_header" + (showSignIn ? " active" : '')}>
-              Sign in
-            </span> <br /> <span
-              onClick={handleSiginSignUp}
-              id="sign_up_button"
-              className={"form_header" + (!showSignIn ? " active" : '')}>
-              Sign up
-            </span>
-          </h3>
-          {showSignIn ?
-            <SignInForm login={login} /> :
-            <SignUpForm />
-          }
+          <div id="form_header">
+            <h3 id="sign_in_or_up">
+              <span onClick={handleSiginSignUp}
+                id={`sign_in_button`}
+                className={"form_header" + (showSignIn ? " active" : '')}>
+                Sign in
+              </span> <br /> <span
+                onClick={handleSiginSignUp}
+                id="sign_up_button"
+                className={"form_header" + (!showSignIn ? " active" : '')}>
+                Sign up
+              </span>
+            </h3>
+          </div>
+
+          <div id="slider" className={showSignIn ? "si" : "su"}>
+            {showSignIn ?
+              <SignInForm login={login} /> :
+              <SignUpForm />
+            }
+          </div>
 
           {error && (
             <div id="error">
