@@ -1,12 +1,15 @@
 import NavBar from "../../components/NavBar/NavBar.tsx"
 import "./SignIn.scss"
 import SignInForm from "./components/SignInForm.tsx"
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useNavigate } from "react-router"
 import SignUpForm from "./components/SignUpForm.tsx"
 
+interface SignIn {
+  setLoggedIn: Dispatch<SetStateAction<boolean>>
+}
 
-export default function SignIn() {
+export default function SignIn({ setLoggedIn }: SignIn) {
 
   const navigate = useNavigate()
 
@@ -25,6 +28,7 @@ export default function SignIn() {
         body: formData
       })
       if (resp.ok) {
+        setLoggedIn(true)
         navigate("/works")
       } else if (resp.status == 406) {
         setError("Error signing in, check password or email")

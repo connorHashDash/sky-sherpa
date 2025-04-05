@@ -49,6 +49,17 @@ $font: "Montserrat";
       }
     }
 
+    #search {
+      #search_bar_input {
+        height: 32px;
+        border-radius: 100px;
+        padding-left: 14px;
+        font-family: "Montserrat";
+        width: 360px;
+        border: 1px solid teal;
+      }
+    }
+
   }
 
 }

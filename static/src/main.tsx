@@ -4,8 +4,14 @@ import SignIn from "./pages/SignIn/SignIn.tsx"
 import { createRoot } from 'react-dom/client'
 import './index.scss'
 import { createBrowserRouter, RouterProvider } from 'react-router'
+import { createContext, useState } from 'react'
+
+export const UserStatus = createContext<boolean | null>(null)
 
 function Main() {
+  const [loggedIn, setLoggedIn] = useState<boolean>(false)
+
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -14,13 +20,15 @@ function Main() {
     },
     {
       path: '/signin',
-      element: <SignIn />,
+      element: <SignIn setLoggedIn={setLoggedIn} />,
       errorElement: <ErrorPage />
     }
   ])
 
   return (
-    <RouterProvider router={router} />
+    <UserStatus.Provider value={loggedIn}>
+      <RouterProvider router={router} />
+    </UserStatus.Provider>
   )
 }
 
