@@ -53,10 +53,10 @@ $font: "Montserrat";
       display: flex;
       flex-direction: column;
       border-radius: 5px;
-      width: 270px;
       justify-content: top;
       align-items: center;
       background-color: white;
+      width: 100%;
 
       #form_header {
         width: 100%;
@@ -65,9 +65,11 @@ $font: "Montserrat";
       #slider {
         height: 185px;
         transition: height .3s;
+        width: 270px;
 
         &.si {
           height: 185px;
+          width: 270px;
         }
 
         &.su {
@@ -77,6 +79,10 @@ $font: "Montserrat";
         form {
           display: flex;
           flex-direction: column;
+
+          .mandatory {
+            color: red;
+          }
         }
       }
 
@@ -101,6 +107,7 @@ $font: "Montserrat";
 
       .signin_button {
         margin-top: 20px;
+        width: 100px;
       }
 
 

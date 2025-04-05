@@ -45,8 +45,11 @@ export default function SignIn() {
         method: "POST",
         body: formData
       })
-      if (!resp.ok) {
-        setError("woops")
+      if (resp.ok) {
+        setError(undefined)
+      } else {
+        const errorText: string = await resp.text()
+        setError(errorText)
         console.error(resp.body)
       }
     }

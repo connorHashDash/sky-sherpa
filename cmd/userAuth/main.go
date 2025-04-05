@@ -37,6 +37,8 @@ func enableCors(w *http.ResponseWriter) {
 
 func register(w http.ResponseWriter, r *http.Request) {
 
+	enableCors(&w)
+
 	if r.Method != http.MethodPost {
 		er := http.StatusMethodNotAllowed
 		http.Error(w, "Invalid HTTP Method", er)
