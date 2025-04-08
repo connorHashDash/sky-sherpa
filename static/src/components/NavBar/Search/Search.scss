@@ -1,0 +1,53 @@
+$font: "Montserrat";
+
+#search_menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100vw;
+  margin: 2.45rem 0;
+  margin-inline: auto;
+  box-sizing: border-box;
+  width: fit-content;
+  z-index: 20;
+  font-family: $font;
+
+  #search_bar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 0;
+    padding-left: 12px;
+    border-radius: 100px;
+    height: 40px;
+    border: 1px solid #3a3a3a;
+    box-shadow: 1px 1px 5px black;
+
+    .mag_glass {
+      color: #3a3a3a;
+    }
+
+    input#search_bar_input {
+      height: 38px;
+      all: unset;
+      color: #3a3a3a;
+      font-weight: 600;
+      font-size: 16px;
+      padding-left: 14px;
+      width: 60vw;
+      box-sizing: border-box;
+
+      &::placeholder {
+        color: #3a3a3a;
+      }
+
+    }
+
+  }
+
+  #date_outer_div {
+    width: 100%;
+    display: flex;
+  }
+}

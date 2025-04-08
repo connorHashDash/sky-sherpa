@@ -1,4 +1,4 @@
-# sky_saver
+# Sky Sherpa
 
 The goal of Sky-Sherpa is to provide an all-in-one flight booking platform which looks and feels like a premium product.
 
