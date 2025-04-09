@@ -82,7 +82,9 @@ $font: "Montserrat";
     }
 
     #nav_buttons {
-      width: 124px;
+      width: fit-content;
+      min-width: 112px;
+
     }
 
   }

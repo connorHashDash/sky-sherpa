@@ -1,4 +1,5 @@
 $font: "Montserrat";
+$logo_color: #87ceebff;
 
 #search_menu {
   position: fixed;
@@ -12,17 +13,27 @@ $font: "Montserrat";
   width: fit-content;
   z-index: 20;
   font-family: $font;
+  background-color: #f1f1f1;
+  border-top-right-radius: 21px;
+  border-top-left-radius: 21px;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+  box-shadow: 0px 2px 10px black;
+  padding-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 
   #search_bar {
     display: flex;
     align-items: center;
     background-color: white;
     padding: 0;
-    padding-left: 12px;
+    padding: 0 12px 0 12px;
     border-radius: 100px;
     height: 40px;
     border: 1px solid #3a3a3a;
-    box-shadow: 1px 1px 5px black;
 
     .mag_glass {
       color: #3a3a3a;
@@ -36,18 +47,93 @@ $font: "Montserrat";
       font-size: 16px;
       padding-left: 14px;
       width: 60vw;
+      max-width: 622px;
       box-sizing: border-box;
+
+      @media screen and (min-width: 480px) {
+        width: 40vw;
+      }
+
+      @media screen and (max-width: 500px) {
+        width: 80vw;
+      }
 
       &::placeholder {
         color: #3a3a3a;
       }
+    }
 
+    #exit_search {
+      all: unset;
+      margin-top: 3px;
+      color: #4f4f4f;
     }
 
   }
 
+  #return_picker_outer_div {
+    display: flex;
+    width: 71%;
+    justify-content: left;
+    margin: 10px 0;
+
+    @media screen and (max-width: 900px) {
+      flex-direction: row;
+      width: 240px;
+    }
+
+    input {
+      background-color: white;
+      width: 12px;
+    }
+  }
+
+
   #date_outer_div {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+
+    //desktop
+    @media screen and (min-width: 900px) {
+      flex-direction: row;
+      width: 80%;
+      align-items: start;
+    }
+
+    #dates_as_text {
+      display: flex;
+      margin-bottom: 20px;
+      min-height: fit-content;
+      width: fit-content;
+      min-width: 240px;
+      align-items: space-between;
+      justify-content: space-between;
+
+      @media screen and (min-width: 900px) {
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 154px;
+        min-width: fit-content;
+      }
+
+
+      #to_from {
+        font-weight: 700;
+        word-spacing: 0px;
+        padding-bottom: 0;
+      }
+
+      p {
+        min-width: 90px;
+        padding-bottom: 0;
+
+      }
+    }
+
   }
 }

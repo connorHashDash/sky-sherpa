@@ -23,7 +23,8 @@ export default function Home() {
           </h2>
         </div>
       </div>
-      <Carousel />
+      {//<Carousel />
+      }
       <div className="Footer">
 
       </div>
