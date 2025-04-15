@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./Search.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,16 +7,37 @@ interface SearchProps {
   setSearchClicked: Dispatch<SetStateAction<boolean>>
 }
 
-export default function Search({ setSearchClicked }: SearchProps) {
-  const [startDate, setStartDate] = useState<Date>(new Date)
-  const [endDate, setEndDate] = useState<Date | null>(null)
-  const [isReturn, setIsReturn] = useState<boolean>(false)
+interface AutoSuggestTypes {
+  name: string
+  country: string
+  municipality: string
+  iata: string
+}
 
-  const onDateChange = (dates: any) => {
-    const [start, end] = dates;
-    setStartDate(start)
-    setEndDate(end)
+export default function Search({ setSearchClicked }: SearchProps) {
+  const [autoSuggest, setAutoSuggest] = useState<AutoSuggestTypes[] | undefined>()
+
+
+  const getAutoSuggest = async (searchVal: string) => {
+    if (searchVal.length <= 1) {
+      setAutoSuggest(undefined)
+      return
+    }
+
+    try {
+      const searchParam: string = "apsearch=" + searchVal
+      const resp = await fetch(`http://localhost:8080/api/ac/airports?${searchParam}`)
+      const respJson = await resp.json()
+      setAutoSuggest(respJson)
+    } catch {
+
+    }
   }
+
+  useEffect(() => {
+    console.log(autoSuggest)
+  }, [autoSuggest])
+
 
   return (
     <div id='search_menu'>
@@ -27,45 +48,44 @@ export default function Search({ setSearchClicked }: SearchProps) {
             <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
               stroke="currentColor"
               fill="none"
-              stroke-width="2"
-              fill-rule="evenodd"
-              stroke-linecap="round"
-              stroke-linejoin="round">
+              strokeWidth="2"
+              fillRule="evenodd"
+              strokeLinecap="round"
+              strokeLinejoin="round">
             </path>
           </svg>
         </div>
         <input
           autoFocus
           placeholder='Search'
+          onChange={(e) => getAutoSuggest(e.target.value)}
           id='search_bar_input'
           type="text" />
         <button id="exit_search" onClick={() => setSearchClicked(false)}>
-          <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none" /> <path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1" /> </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24"
+            strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none" /> <path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1" /> </svg>
         </button>
       </div>
-      <div id="return_picker_outer_div">
-        <label htmlFor="return_picker">Return</label>
-        <input onChange={() => setIsReturn(!isReturn)} type="checkbox" name="return_picker" id="" />
-      </div>
 
-      <div id="date_outer_div">
-        <div id="dates_as_text">
-          <div><p id="to_from">From:</p>{startDate.toLocaleDateString()}</div>
-          {isReturn && (
-            <div><p id="to_from">To:</p>
-              {endDate && endDate.toLocaleDateString()}
-            </div>
-          )}
-        </div>
-        <DatePicker
-          selected={startDate}
-          startDate={startDate}
-          inline
-          selectsRange
-          endDate={endDate}
-          onChange={onDateChange}
-        />
-      </div>
+      {
+        autoSuggest && (
+          <div id="suggestions">
+            <ul>
+              {autoSuggest.map(({ name, country, municipality }) => {
+                return (
+                  <li>
+                    {name} - {municipality} - {country}
+                  </li>
+                )
+              })
+              }
+            </ul>
+          </div>
+        )
+
+
+      }
+
     </div>
   )
 } 
