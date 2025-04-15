@@ -15,11 +15,11 @@ const randomNumberRange = (min: number, max: number): number => {
 }
 
 function getInverseValue(input: number): number {
-  const inMin = 200;  
-  const inMax = 390;  
-  const outMax = 13;  
-  const outMin = 7;   
-  
+  const inMin = 200;
+  const inMax = 390;
+  const outMax = 13;
+  const outMin = 7;
+
   const normalized = (input - inMin) / (inMax - inMin);
 
   return outMax - (normalized * (outMax - outMin));

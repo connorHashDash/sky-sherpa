@@ -204,6 +204,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	err = database.AutoComplete("Lu")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	files := http.FileServer(http.Dir(Config.Files.Dir))
 
 	http.Handle("/", files)

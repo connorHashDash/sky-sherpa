@@ -20,3 +20,10 @@ type UserRegFormInput struct {
 type LoginJson struct {
 	Token string `json:"token"`
 }
+
+type AutoCompleteResponse struct {
+	Name         string `json:"name"`
+	Country      string `json:"country"`
+	Municipality string `json:"municipality"`
+	IATA         string `json:"iata"`
+}

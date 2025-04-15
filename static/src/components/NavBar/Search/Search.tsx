@@ -3,7 +3,6 @@ import "./Search.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 interface SearchProps {
   setSearchClicked: Dispatch<SetStateAction<boolean>>
 }
@@ -12,7 +11,6 @@ export default function Search({ setSearchClicked }: SearchProps) {
   const [startDate, setStartDate] = useState<Date>(new Date)
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [isReturn, setIsReturn] = useState<boolean>(false)
-  const [destinationIsPicked, setDestinationIsPicked] = useState<boolean>(false)
 
   const onDateChange = (dates: any) => {
     const [start, end] = dates;
@@ -56,7 +54,6 @@ export default function Search({ setSearchClicked }: SearchProps) {
           {isReturn && (
             <div><p id="to_from">To:</p>
               {endDate && endDate.toLocaleDateString()}
-
             </div>
           )}
         </div>

@@ -127,3 +127,35 @@ func KillSession(email string) error {
 
 	return nil
 }
+
+func AutoComplete(input string) error {
+	searchPattern := "%" + input + "%"
+	res, err := db.Query(`SELECT a.name, a.iso_country, a.municipality, a.iata_code 
+													FROM sky_save.airports a 
+													WHERE a.name 
+													LIKE ?
+													LIMIT 10`, searchPattern)
+	defer res.Close()
+
+	if err != nil {
+		return err
+	}
+
+	var AutoCompArr []AutoCompleteResponse
+
+	for res.Next() {
+		var ac AutoCompleteResponse
+		err = res.Scan(&ac.Name, &ac.Country, &ac.Municipality, &ac.IATA)
+
+		AutoCompArr = append(AutoCompArr, ac)
+	}
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(AutoCompArr)
+
+	return nil
+
+}
