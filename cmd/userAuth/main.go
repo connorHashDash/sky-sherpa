@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/mail"
+	"net/url"
 
 	"sky_save/internal/config"
 	"sky_save/internal/database"
@@ -188,6 +189,39 @@ func AuthoriseCall(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Authorised"))
 }
 
+func AutoComplete(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+
+	var queryVals url.Values = r.URL.Query()
+
+	searchParam, exists := queryVals["apsearch"]
+
+	if !exists {
+		http.Error(w, "incorrect query param", http.StatusNotAcceptable)
+		return
+	}
+
+	resp, err := database.AutoComplete(searchParam[0])
+
+	if err != nil {
+		http.Error(w, "Serious error with database query", http.StatusInternalServerError)
+		return
+	}
+
+	jsonBytes, err := json.Marshal(resp)
+
+	if err != nil {
+		http.Error(w, "Issue parsing json data", http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(jsonBytes)
+}
+
 func main() {
 	Config, err := config.InitConfig()
 	if err != nil {
@@ -204,12 +238,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = database.AutoComplete("Lu")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	files := http.FileServer(http.Dir(Config.Files.Dir))
 
 	http.Handle("/", files)
@@ -217,6 +245,7 @@ func main() {
 	http.HandleFunc("/api/login", login)
 	http.HandleFunc("/api/logout", logout)
 	http.HandleFunc("/api/Authorise", AuthoriseCall)
+	http.HandleFunc("/api/ac/airports", AutoComplete)
 
 	if Config.ServerConfig.IsSsl {
 		fmt.Printf("Running on %v with https\n", Config.ServerConfig.Port)

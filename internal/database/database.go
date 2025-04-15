@@ -128,17 +128,23 @@ func KillSession(email string) error {
 	return nil
 }
 
-func AutoComplete(input string) error {
+func AutoComplete(input string) ([]AutoCompleteResponse, error) {
+	if len(input) <= 1 {
+		return nil, nil
+	}
+
+	// Quote marks with variables aren't allowed in SQL, so the wrapping needs to happen here
 	searchPattern := "%" + input + "%"
 	res, err := db.Query(`SELECT a.name, a.iso_country, a.municipality, a.iata_code 
 													FROM sky_save.airports a 
 													WHERE a.name 
 													LIKE ?
+													ORDER BY a.type
 													LIMIT 10`, searchPattern)
 	defer res.Close()
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	var AutoCompArr []AutoCompleteResponse
@@ -151,11 +157,9 @@ func AutoComplete(input string) error {
 	}
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	fmt.Println(AutoCompArr)
-
-	return nil
+	return AutoCompArr, nil
 
 }
