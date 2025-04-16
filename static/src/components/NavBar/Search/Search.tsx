@@ -1,21 +1,29 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./Search.scss";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface SearchProps {
   setSearchClicked: Dispatch<SetStateAction<boolean>>
 }
 
-interface AutoSuggestTypes {
+interface AutoSuggestAirports {
+  type: string
   name: string
   country: string
   municipality: string
   iata: string
 }
 
+interface AutoSuggestCountries {
+  type: string
+  name: string
+  iso_code: string
+}
+
+
 export default function Search({ setSearchClicked }: SearchProps) {
-  const [autoSuggest, setAutoSuggest] = useState<AutoSuggestTypes[] | undefined>()
+  const [autoSuggest, setAutoSuggest] = useState<Array<AutoSuggestAirports | AutoSuggestCountries> | undefined>()
 
 
   const getAutoSuggest = async (searchVal: string) => {
@@ -69,15 +77,28 @@ export default function Search({ setSearchClicked }: SearchProps) {
 
       {
         autoSuggest && (
-          <div id="suggestions">
+          <div className="suggestions">
             <ul>
-              {autoSuggest.map(({ name, country, municipality }) => {
-                return (
-                  <li>
-                    {name} - {municipality} - {country}
-                  </li>
+              {
+                autoSuggest.map((suggestion: AutoSuggestAirports | AutoSuggestCountries) => {
+                  if (suggestion.type == "Airport") {
+                    const airport = suggestion as AutoSuggestAirports
+                    return (
+                      <li key={airport.iata}>
+                        {airport.name},
+                        {airport.country}
+                      </li>
+                    )
+                  } else if (suggestion.type == "Country") {
+                    const country = suggestion as AutoSuggestCountries
+                    return (
+                      <li key={country.iso_code}>
+                        {country.name}
+                      </li>
+                    )
+                  }
+                }
                 )
-              })
               }
             </ul>
           </div>

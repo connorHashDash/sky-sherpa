@@ -40,7 +40,7 @@ func AddUser(user UserRegFormInput) error {
 
 	_, err := db.Exec(`INSERT INTO sky_save.users 
                       (email, firstName, lastName, hashedPass, role) 
-                      VALUES (?, ?, ?, ?, ?)`, user.Email, user.FirstName, user.LastName, user.HashedPw, 1)
+                      VALUES (?, ?, ?, ?, ?)`, user.Email, user.FirstName, user.LastName, user.HashedPw, 2)
 
 	if err != nil {
 		return fmt.Errorf("Failed to add new user to database\n%v", err)
@@ -128,38 +128,66 @@ func KillSession(email string) error {
 	return nil
 }
 
-func AutoComplete(input string) ([]AutoCompleteResponse, error) {
+func (a AutoCompleteResponseAirport) getName() string {
+	return a.Name
+}
+
+func (c AutoCompleteResponseCountry) getName() string {
+	return c.Name
+}
+
+func AutoComplete(input string) ([]ACResponse, error) {
 	if len(input) <= 1 {
 		return nil, nil
 	}
 
-	// Quote marks with variables aren't allowed in SQL, so the wrapping needs to happen here
 	searchPattern := "%" + input + "%"
-	res, err := db.Query(`SELECT a.name, a.iso_country, a.municipality, a.iata_code 
-													FROM sky_save.airports a 
-													WHERE a.name 
-													LIKE ?
-													ORDER BY a.type
-													LIMIT 10`, searchPattern)
-	defer res.Close()
-
+	apRes, err := db.Query(`
+	SELECT a.name, a.iso_country, a.municipality, a.iata_code 
+	FROM sky_save.airports a 
+	WHERE a.name 
+	LIKE ?
+	ORDER BY a.popularity DESC
+	LIMIT 5`, searchPattern)
+	defer apRes.Close()
 	if err != nil {
 		return nil, err
 	}
 
-	var AutoCompArr []AutoCompleteResponse
-
-	for res.Next() {
-		var ac AutoCompleteResponse
-		err = res.Scan(&ac.Name, &ac.Country, &ac.Municipality, &ac.IATA)
+	var AutoCompArr []ACResponse
+	for apRes.Next() {
+		var ac AutoCompleteResponseAirport
+		err = apRes.Scan(&ac.Name, &ac.Country, &ac.Municipality, &ac.IATA)
+		ac.Type = "Airport"
+		if err != nil {
+			return nil, err
+		}
 
 		AutoCompArr = append(AutoCompArr, ac)
 	}
 
+	cRes, err := db.Query(`
+	SELECT c.name, c.code FROM sky_save.countries c
+	WHERE c.name LIKE ?
+	LIMIT 2
+	`, searchPattern)
+
+	defer cRes.Close()
+
 	if err != nil {
 		return nil, err
 	}
 
-	return AutoCompArr, nil
+	for cRes.Next() {
+		var cRow AutoCompleteResponseCountry
 
+		err = cRes.Scan(&cRow.Name, &cRow.Code)
+		if err != nil {
+			return nil, err
+		}
+		cRow.Type = "Country"
+		AutoCompArr = append(AutoCompArr, cRow)
+	}
+
+	return AutoCompArr, nil
 }

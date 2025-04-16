@@ -21,9 +21,20 @@ type LoginJson struct {
 	Token string `json:"token"`
 }
 
-type AutoCompleteResponse struct {
+type ACResponse interface {
+	getName() string
+}
+
+type AutoCompleteResponseAirport struct {
+	Type         string `json:"type"`
 	Name         string `json:"name"`
 	Country      string `json:"country"`
 	Municipality string `json:"municipality"`
 	IATA         string `json:"iata"`
+}
+
+type AutoCompleteResponseCountry struct {
+	Type string `json:"type"`
+	Name string `json:"name"`
+	Code string `json:"iso_code"`
 }
