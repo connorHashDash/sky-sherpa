@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
 import "./Search.scss";
 // import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -77,7 +77,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
 
       {
         autoSuggest && (
-          <div className="suggestions">
+          <div id="suggestions">
             <ul>
               {
                 autoSuggest.map((suggestion: AutoSuggestAirports | AutoSuggestCountries) => {

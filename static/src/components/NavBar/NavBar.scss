@@ -55,7 +55,6 @@ $font: "Montserrat";
       justify-content: center;
       width: 100%;
 
-
       #search_bar_button {
         display: flex;
         align-items: center;
@@ -67,6 +66,7 @@ $font: "Montserrat";
         border-radius: 100px;
         border: 1px solid teal;
         cursor: pointer;
+        background-color: white;
 
         .mag_glass {
           color: #3a3a3a;
