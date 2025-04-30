@@ -1,7 +1,9 @@
-import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+
 import "./Search.scss";
-// import DatePicker from "react-datepicker";
+import CustomDatePicker from "./components/DatePicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Button from "../../Button/Button";
 
 interface SearchProps {
   setSearchClicked: Dispatch<SetStateAction<boolean>>
@@ -21,10 +23,31 @@ interface AutoSuggestCountries {
   iso_code: string
 }
 
+interface DestinationType {
+  long: string
+  code: string
+}
+
+export interface CalenderProps {
+  setFlightDate: Dispatch<SetStateAction<FlightDateInfo>>
+  flightDate: FlightDateInfo
+  isReturn: Boolean
+}
+
+export interface FlightDateInfo {
+  from: Date | null
+  to: Date | null
+}
 
 export default function Search({ setSearchClicked }: SearchProps) {
   const [autoSuggest, setAutoSuggest] = useState<Array<AutoSuggestAirports | AutoSuggestCountries> | undefined>()
+  const [destination, setDestination] = useState<DestinationType | undefined>()
+  const [isReturn, setIsReturn] = useState<boolean>(true)
+  const [flightDate, setFlightDate] = useState<FlightDateInfo>({ from: null, to: null })
 
+  useEffect(() => {
+    console.log(flightDate)
+  }, [flightDate])
 
   const getAutoSuggest = async (searchVal: string) => {
     if (searchVal.length <= 1) {
@@ -43,9 +66,8 @@ export default function Search({ setSearchClicked }: SearchProps) {
   }
 
   useEffect(() => {
-    console.log(autoSuggest)
-  }, [autoSuggest])
-
+    setAutoSuggest(undefined)
+  }, [destination])
 
   return (
     <div id='search_menu'>
@@ -68,6 +90,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
           placeholder='Search'
           onChange={(e) => getAutoSuggest(e.target.value)}
           id='search_bar_input'
+          value={destination?.long}
           type="text" />
         <button id="exit_search" onClick={() => setSearchClicked(false)}>
           <svg width="24" height="24" viewBox="0 0 24 24"
@@ -76,7 +99,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
       </div>
 
       {
-        autoSuggest && (
+        autoSuggest && !destination && (
           <div id="suggestions">
             <ul>
               {
@@ -84,7 +107,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
                   if (suggestion.type == "Airport") {
                     const airport = suggestion as AutoSuggestAirports
                     return (
-                      <li key={airport.iata}>
+                      <li onClick={() => setDestination(() => { return { long: airport.name, code: airport.iata } })} className="ap" key={airport.iata}>
                         {airport.name},
                         {airport.country}
                       </li>
@@ -92,7 +115,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
                   } else if (suggestion.type == "Country") {
                     const country = suggestion as AutoSuggestCountries
                     return (
-                      <li key={country.iso_code}>
+                      <li onClick={() => setDestination(() => { return { long: country.name, code: country.iso_code } })} className="co" key={country.iso_code}>
                         {country.name}
                       </li>
                     )
@@ -103,9 +126,35 @@ export default function Search({ setSearchClicked }: SearchProps) {
             </ul>
           </div>
         )
-
-
       }
+
+      {destination && (
+        <div id="date_picker">
+          <div id="date_top">
+            <button onClick={() => setIsReturn(false)}
+              className={`return_single_buttons  left ${(!isReturn ? "active" : '')}`}>
+              One-Way
+            </button>
+            <button onClick={() => setIsReturn(true)}
+              className={`return_single_buttons  right ${(isReturn ? "active" : '')}`}>
+              Return
+            </button>
+          </div>
+
+          <CustomDatePicker
+            isReturn={isReturn}
+            setFlightDate={setFlightDate}
+            flightDate={flightDate}
+          />
+          <Button extraClass="next_date">
+            Next
+          </Button>
+
+        </div>
+      )
+      }
+
+
 
     </div>
   )
