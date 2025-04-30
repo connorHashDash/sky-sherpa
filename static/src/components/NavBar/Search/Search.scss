@@ -137,13 +137,39 @@ $logo_color: #87ceebff;
           font-weight: 600;
         }
       }
-
-
-
     }
+
+    #date_message {
+      position: absolute;
+
+      opacity: 0;
+      transition: opacity .2s ease;
+
+      &.active {
+        opacity: 1;
+        background-color: #87ceebff;
+        color: white;
+        font-weight: 500;
+        font-size: 18px;
+        padding: 4px 8px;
+        box-shadow: black 0px 2px 9px 0px;
+        left: 35%;
+        top: 60%;
+        z-index: 3;
+        width: fit-content;
+
+      }
+    }
+
+
 
     .next_date {
       margin: 10px 0;
     }
+  }
+
+  #finalised {
+    display: flex;
+    flex-direction: column;
   }
 }
