@@ -86,9 +86,13 @@ export default function Search({ setSearchClicked }: SearchProps) {
       {
         dateSelected && (
           <div id="finalised">
-            You're flying to <strong>{destination!.long}</strong> <br />
-            leaving on {flightDate!.from!.toLocaleDateString("en-gb")} <br />
-            {isReturn && (<>returning on {flightDate.to!.toLocaleDateString("en-gb")} </>)}
+            <strong>{destination!.long}</strong> <br />
+            <strong>Leaving on:</strong> {flightDate!.from!.toLocaleDateString("en-gb")} <br />
+            {isReturn && (<>
+              <strong>Returning on:</strong>
+
+              {flightDate.to!.toLocaleDateString("en-gb")}
+            </>)}
             <button onClick={handleSearch} className="button">Search</button>
           </div>
         )

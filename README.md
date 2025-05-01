@@ -14,9 +14,42 @@ To get the project running, navigate to the ./static/ folder and run:
 
 ```
 npm run dev
-
 ```
 
-That will create both a locally running backend server and a vite development server which will speak to each other (you'll have to provide your own database solution, however I'm using MariaDB).
+That will create both a locally running backend server and a vite development server which will speak to each other (
+you'll have to provide your own database solution. MySQL or MariaDB). I haven't got round to making a migration solution either, 
+so you'll have to backwards engineer schemas.
 
+## Configuring
 
+You'll need to provide a config file also, the Go server needs this to know what to do, where to connect to your database
+
+The expected schema is as follows:
+
+```javascript
+
+{
+  "server_conf": {
+    "port": ":8080",
+    "logs_dir": "./logs/",
+    "ssl_cert": "(only required if is_ssl is true)",
+    "ssl_priv_key": "(only required if is_ssl is true)",
+    "is_ssl": false
+  }, 
+  "mariadb_conf": {
+    "username": "(details for connecting with your database)",
+    "passw": "",
+    "net": "",
+    "addr": "",
+    "db_name": ""
+  },
+  "duffel": {
+    "key": "(Make an account with duffel for a key)"
+  },
+  "files": {
+    "dir": "./static/"
+  }
+}
+```
+```
+```
