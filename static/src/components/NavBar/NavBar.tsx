@@ -4,7 +4,7 @@ import SSLogoBlue from "../../assets/SkySherpaLogov3BLUE.png"
 import Button from "../Button/Button.tsx"
 import Search from "./Search/Search.tsx"
 import { useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { UserStatus } from "../../main.tsx"
 
 

@@ -1,5 +1,5 @@
 import "./Button.scss"
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string

@@ -4,6 +4,8 @@ import DatePicker from "./components/DatePicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Suggestions from "./components/Suggestions.tsx"
 import SearchBar from "./components/SearchBar.tsx"
+import { useNavigate } from "react-router-dom";
+
 
 import "./Search.scss";
 
@@ -42,6 +44,8 @@ export interface FlightDateInfo {
 }
 
 export default function Search({ setSearchClicked }: SearchProps) {
+  const navigate = useNavigate()
+
   const [autoSuggest, setAutoSuggest] = useState<Array<AutoSuggestAirports | AutoSuggestCountries> | undefined>();
   const [destination, setDestination] = useState<DestinationType | undefined>();
   const [isReturn, setIsReturn] = useState<boolean>(true);
@@ -54,7 +58,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
   }, [destination])
 
   const handleSearch = () => {
-    console.log("searching!")
+    navigate("/dasfasd")
   }
 
   return (
@@ -93,7 +97,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
 
               {flightDate.to!.toLocaleDateString("en-gb")}
             </>)}
-            <button onClick={handleSearch} className="button">Search</button>
+            <button onClick={handleSearch} id="search" className="button">Search</button>
           </div>
         )
       }

@@ -3,7 +3,7 @@ import ErrorPage from './pages/ErrorPage.tsx'
 import SignIn from "./pages/SignIn/SignIn.tsx"
 import { createRoot } from 'react-dom/client'
 import './index.scss'
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { createContext, useState } from 'react'
 
 export const UserStatus = createContext<boolean | null>(null)

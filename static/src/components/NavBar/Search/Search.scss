@@ -172,5 +172,14 @@ $logo_color: #87ceebff;
     display: flex;
     flex-direction: column;
     padding: 20px 0px;
+
+    #search {
+      margin: 20px 0 0 0;
+      border: 1px $logo_color solid;
+
+      &:hover {
+        background-color: #00b5ff;
+      }
+    }
   }
 }
