@@ -58,7 +58,13 @@ export default function Search({ setSearchClicked }: SearchProps) {
   }, [destination])
 
   const handleSearch = () => {
-    navigate("/dasfasd")
+    const params = new URLSearchParams({
+      destination: destination!.code,
+      isReturn: isReturn.toString(),
+      fdFrom: encodeURIComponent(flightDate.from!.toISOString().split('T')[0]),
+      fdTo: encodeURIComponent(flightDate.to!.toISOString().split('T')[0]),
+    })
+    navigate(`/search?${params.toString()}`);
   }
 
   return (

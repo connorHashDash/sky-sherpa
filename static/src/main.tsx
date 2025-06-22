@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 import './index.scss'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { createContext, useState } from 'react'
+import SearchResults from './pages/SearchResults/SearchResults.tsx'
 
 export const UserStatus = createContext<boolean | null>(null)
 
@@ -21,6 +22,11 @@ function Main() {
     {
       path: '/signin',
       element: <SignIn setLoggedIn={setLoggedIn} />,
+      errorElement: <ErrorPage />
+    },
+    {
+      path: '/search',
+      element: <SearchResults />,
       errorElement: <ErrorPage />
     }
   ])

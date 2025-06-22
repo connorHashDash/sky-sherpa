@@ -17,9 +17,9 @@ export default function SignUpForm({ signup }: Props) {
       <label htmlFor="lname">Last Name<span className="mandatory">*</span></label>
       <input required type="text" name="lname" id="" />
       <label htmlFor="password">Password<span className="mandatory">*</span></label>
-      <input required type="text" name="password" id="" />
+      <input required type="password" name="password" id="" />
       <label htmlFor="password">Retype Password<span className="mandatory">*</span></label>
-      <input required type="text" name="password" id="" />
+      <input required type="password" name="password" id="" />
       <Button extraClass="signin_button">Sign up</Button>
     </form>
   )

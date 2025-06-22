@@ -25,9 +25,14 @@ func FlightSearch(OfferRequest OfferRequest) (*OffersResponse, error) {
 		DepartureDate: OfferRequest.Flights[0].DepartureDate,
 	}
 
+	incoming := Slices{
+		Origin:        OfferRequest.Flights[0].Destination,
+		Destination:   OfferRequest.Flights[0].Origin,
+		DepartureDate: OfferRequest.Flights[0].ReturnDate,
+	}
+
 	PassengerArray := []Passengers{}
 	for i := 0; i < len(OfferRequest.Passenger); i++ {
-		fmt.Println(OfferRequest.Passenger[i].Type)
 		PassengerArray = append(PassengerArray, Passengers{
 			Type: OfferRequest.Passenger[i].Type,
 			Age:  OfferRequest.Passenger[i].Age,
@@ -36,7 +41,7 @@ func FlightSearch(OfferRequest OfferRequest) (*OffersResponse, error) {
 
 	body := Data{
 		FlightSearchRequestBody{
-			[]Slices{outgoing},
+			[]Slices{outgoing, incoming},
 			PassengerArray,
 			"economy",
 			"0",
@@ -49,7 +54,7 @@ func FlightSearch(OfferRequest OfferRequest) (*OffersResponse, error) {
 		fmt.Printf("Json didn't Marshal\nError: %v", err)
 	}
 
-	resp, err := requestbuilder.Request(http.MethodPost, "https://api.duffel.com/air/offer_requests?limit=20",
+	resp, err := requestbuilder.Request(http.MethodPost, "https://api.duffel.com/air/offer_requests?limit=5",
 		http.Header{
 			"Content-Type":    {"application/json"},
 			"Authorization":   {duffelKey},

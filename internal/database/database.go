@@ -127,3 +127,15 @@ func KillSession(email string) error {
 
 	return nil
 }
+
+// Gets the full Aiport name via the IATA code
+func GetAirportByIATA(IATA string) AirportName {
+	res := db.QueryRow(`SELECT a.name 
+											FROM sky_save.airports a 
+											WHERE a.iata_code = ?`, IATA)
+
+	var AirportNameJson AirportName
+	res.Scan(&AirportNameJson.Name)
+
+	return AirportNameJson
+}

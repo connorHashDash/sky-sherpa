@@ -2,7 +2,7 @@ import NavBar from "../../components/NavBar/NavBar.tsx"
 import "./SignIn.scss"
 import SignInForm from "./components/SignInForm.tsx"
 import { Dispatch, SetStateAction, useState } from 'react'
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 import SignUpForm from "./components/SignUpForm.tsx"
 
 interface SignIn {

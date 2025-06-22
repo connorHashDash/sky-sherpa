@@ -20,3 +20,7 @@ type UserRegFormInput struct {
 type LoginJson struct {
 	Token string `json:"token"`
 }
+
+type AirportName struct {
+	Name string `json:"name"`
+}

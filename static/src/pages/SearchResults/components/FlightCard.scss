@@ -1,0 +1,68 @@
+.flight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  font-family: system-ui, sans-serif;
+
+  .airline-logo {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-top: 4px;
+  }
+
+  .flight-details {
+    flex: 1;
+
+    .flight-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .flight-code {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .status {
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-weight: 500;
+
+        &.confirmed {
+          background-color: #e0f7ea;
+          color: #1b7f52;
+        }
+      }
+    }
+
+    .flight-info {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: #333;
+      margin: 4px 0;
+      flex-wrap: wrap;
+
+      .route {
+        font-weight: 500;
+      }
+
+      .datetime,
+      .price {
+        white-space: nowrap;
+      }
+    }
+
+    .passenger-name {
+      font-size: 0.75rem;
+      color: #888;
+    }
+  }
+}

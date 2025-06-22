@@ -5,7 +5,6 @@ import Button from "../../../components/Button/Button.tsx"
 
 interface SignInFormProps {
   login: FormEventHandler
-
 }
 
 export default function SignInForm({ login }: SignInFormProps) {

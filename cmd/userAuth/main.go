@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/mail"
@@ -32,14 +33,23 @@ func Authorise(r *http.Request) error {
 	return nil
 }
 
-func enableCors(w *http.ResponseWriter) {
+func enableCors(w *http.ResponseWriter, r *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+	if r.Method == "OPTIONS" {
+		(*w).WriteHeader(http.StatusOK)
+		return
+	}
 }
 
 func register(w http.ResponseWriter, r *http.Request) {
 
-	enableCors(&w)
+	enableCors(&w, r)
 
+	fmt.Println("here")
 	if r.Method != http.MethodPost {
 		er := http.StatusMethodNotAllowed
 		http.Error(w, "Invalid HTTP Method", er)
@@ -94,7 +104,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	enableCors(&w)
+	enableCors(&w, r)
 
 	if r.Method != http.MethodPost {
 		er := http.StatusMethodNotAllowed
@@ -190,7 +200,7 @@ func AuthoriseCall(w http.ResponseWriter, r *http.Request) {
 }
 
 func AutoComplete(w http.ResponseWriter, r *http.Request) {
-	enableCors(&w)
+	enableCors(&w, r)
 
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -221,6 +231,66 @@ func AutoComplete(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(jsonBytes)
 }
+func IATAToName(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w, r)
+
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var QueryVal url.Values = r.URL.Query()
+
+	iata, exists := QueryVal["iata"]
+
+	if !exists {
+		http.Error(w, "incorrect query param", http.StatusNotAcceptable)
+	}
+
+	resp := database.GetAirportByIATA(iata[0])
+
+	jsonBytes, err := json.Marshal(resp)
+
+	if err != nil {
+		http.Error(w, "Issue parsing json data", http.StatusInternalServerError)
+	}
+
+	w.Write(jsonBytes)
+}
+
+func RequestFlights(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w, r)
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	body, err := io.ReadAll(r.Body)
+
+	if err != nil {
+		http.Error(w, "Issue reading request", http.StatusInternalServerError)
+	}
+
+	var reqJson duffel.OfferRequest
+
+	json.Unmarshal(body, &reqJson)
+
+	dufRes, err := duffel.FlightSearch(reqJson)
+
+	if err != nil {
+		http.Error(w, "Error talking to duffel API", http.StatusInternalServerError)
+	}
+
+	jsonBytes, err := json.Marshal(dufRes)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	w.Write(jsonBytes)
+
+}
 
 func main() {
 	Config, err := config.InitConfig()
@@ -246,6 +316,8 @@ func main() {
 	http.HandleFunc("/api/logout", logout)
 	http.HandleFunc("/api/Authorise", AuthoriseCall)
 	http.HandleFunc("/api/ac/airports", AutoComplete)
+	http.HandleFunc("/api/iatatoname", IATAToName)
+	http.HandleFunc("/api/flight_offers", RequestFlights)
 
 	if Config.ServerConfig.IsSsl {
 		fmt.Printf("Running on %v with https\n", Config.ServerConfig.Port)
@@ -255,7 +327,7 @@ func main() {
 				Config.ServerConfig.PrivKey,
 				nil))
 	} else {
-		fmt.Printf("Running on http://%v with http\n", Config.ServerConfig.Port)
+		fmt.Printf("Running on http://localhost%v with http\n", Config.ServerConfig.Port)
 		log.Fatal(http.ListenAndServe(Config.ServerConfig.Port, nil))
 	}
 }
