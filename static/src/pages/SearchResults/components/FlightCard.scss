@@ -6,15 +6,24 @@
   background-color: white;
   padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.10);
   max-width: 800px;
   font-family: system-ui, sans-serif;
+  height: 70px;
 
-  .airline-logo {
-    width: 44px;
-    object-fit: contain;
-    margin-top: 4px;
-    top: auto
+  .airline-logo-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    .airline-logo {
+      width: 64px;
+      object-fit: contain;
+      margin-top: 4px;
+      top: auto
+    }
+
   }
 
   .flight-details {

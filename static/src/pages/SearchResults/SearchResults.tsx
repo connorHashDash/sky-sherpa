@@ -6,11 +6,13 @@ import { FlightOffer } from "./types";
 
 import "./SearchResults.scss"
 import FlightCard from "./components/FlightCard";
+import { useNavigate } from "react-router-dom";
 
 // interface
 
 
 export default function SearchResults(): JSX.Element {
+  const navigte = useNavigate()
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false)
@@ -89,24 +91,53 @@ export default function SearchResults(): JSX.Element {
           <h1>{name}</h1>
         </div>
         <div className="result_list">
-          {
-            list && list.map((offer: FlightOffer): JSX.Element => {
-              let dateAndTime = offer.slices[0].segments[0].departing_at
+          <div id="outgoing"><h2>Outgoing</h2>
+            {
+              list && list.map((offer: FlightOffer): JSX.Element => {
+                let dateAndTime = offer.slices[0].segments[0].departing_at
 
-              const Time = dateAndTime.substring(11, dateAndTime.length - 3)
-              const Date = dateAndTime.substring(0, 9);
-              return (
-                <FlightCard
-                  key={offer.id}
-                  imageURL={offer.owner.logo_symbol_url}
-                  DestIATA={params.get("destination")!}
-                  flightCode={`${offer.owner.iata_code}${offer.slices[0].segments[0].marketing_carrier_flight_number}`}
-                  Price={offer.total_amount}
-                  Date={Date}
-                  Time={Time}
-                />
-              )
-            })
+                const Time = dateAndTime.substring(11, dateAndTime.length - 3)
+                const Date = dateAndTime.substring(0, 9);
+                return (
+                  <FlightCard
+                    key={offer.id}
+                    imageURL={offer.owner.logo_symbol_url}
+                    DestIATA={params.get("destination")!}
+                    flightCode={`${offer.owner.iata_code}${offer.slices[0].segments[0].marketing_carrier_flight_number}`}
+                    Price={offer.total_amount}
+                    Date={Date}
+                    Time={Time}
+                    IsReturn={false}
+                  />
+                )
+              })
+            }
+          </div>
+          {params.get("isReturn") == "true" && (
+
+            <div id="return"><h2>Return</h2>
+              {
+                list && list.map((offer: FlightOffer): JSX.Element => {
+                  let dateAndTime = offer.slices[1].segments[0].departing_at
+
+                  const Time = dateAndTime.substring(11, dateAndTime.length - 3)
+                  const Date = dateAndTime.substring(0, 9);
+                  return (
+                    <FlightCard
+                      key={offer.id}
+                      imageURL={offer.owner.logo_symbol_url}
+                      DestIATA={params.get("destination")!}
+                      flightCode={`${offer.owner.iata_code}${offer.slices[1].segments[0].marketing_carrier_flight_number}`}
+                      Price={offer.total_amount}
+                      Date={Date}
+                      Time={Time}
+                      IsReturn={true}
+                    />
+                  )
+                })
+              }
+            </div>
+          )
           }
         </div>
       </div>

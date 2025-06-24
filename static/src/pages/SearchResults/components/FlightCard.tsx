@@ -7,19 +7,22 @@ interface FlightCardProps {
   Date: string
   Time: string
   Price: string
+  IsReturn: boolean
 }
 
-const FlightCard = ({ imageURL, flightCode, DestIATA, Date, Time, Price }: FlightCardProps): JSX.Element => {
+const FlightCard = ({ imageURL, flightCode, DestIATA, Date, Time, Price, IsReturn }: FlightCardProps): JSX.Element => {
 
 
 
   return (
     <div className="flight-card">
-      <img
-        src={imageURL}
-        alt="Airline Logo"
-        className="airline-logo"
-      />
+      <div className="airline-logo-div">
+        <img
+          src={imageURL}
+          alt="Airline Logo"
+          className="airline-logo"
+        />
+      </div>
 
       <div className="flight-details">
         <div className="flight-header">
