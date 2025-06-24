@@ -1,5 +1,5 @@
 .search_results {
-  padding-top: 60px;
+  padding-top: 40px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -9,8 +9,12 @@
   .ap_name {
     display: flex;
     width: 800px;
+    font-size: 30px;
+    color: #000;
   }
 
-  .result_list {}
+  .result_list {
+    margin-top: 40px;
+  }
 
 }

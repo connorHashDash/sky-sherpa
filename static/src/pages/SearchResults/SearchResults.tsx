@@ -69,12 +69,12 @@ export default function SearchResults(): JSX.Element {
   }
 
 
-  useEffect(() => {
+  useEffect((): void => {
     getName(params.get("destination")!)
     getFlightOffers()
   }, [])
 
-  useEffect(() => {
+  useEffect((): void => {
     console.log(list)
   }, [list])
 
@@ -90,7 +90,11 @@ export default function SearchResults(): JSX.Element {
         </div>
         <div className="result_list">
           {
-            list && list.map((offer) => {
+            list && list.map((offer: FlightOffer): JSX.Element => {
+              let dateAndTime = offer.slices[0].segments[0].departing_at
+
+              const Time = dateAndTime.substring(11, dateAndTime.length - 3)
+              const Date = dateAndTime.substring(0, 9);
               return (
                 <FlightCard
                   key={offer.id}
@@ -98,9 +102,9 @@ export default function SearchResults(): JSX.Element {
                   DestIATA={params.get("destination")!}
                   flightCode={`${offer.owner.iata_code}${offer.slices[0].segments[0].marketing_carrier_flight_number}`}
                   Price={offer.total_amount}
-                  DateTime={offer.slices[0].segments[0].departing_at}
+                  Date={Date}
+                  Time={Time}
                 />
-
               )
             })
           }

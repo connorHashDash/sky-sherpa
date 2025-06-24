@@ -65,6 +65,7 @@ export default function Search({ setSearchClicked }: SearchProps) {
       fdTo: encodeURIComponent(flightDate.to!.toISOString().split('T')[0]),
     })
     navigate(`/search?${params.toString()}`);
+    navigate(0)
   }
 
   return (
