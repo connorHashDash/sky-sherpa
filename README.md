@@ -50,6 +50,7 @@ The expected schema is as follows:
     "dir": "./static/"
   }
 }
+
 ```
-```
-```
+
+The database will migrate and be populated with the right tables and columns, however key application level data will not be supplied like the list of all airports and countries.
