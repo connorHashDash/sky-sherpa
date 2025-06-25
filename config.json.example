@@ -1,0 +1,22 @@
+{
+  "server_conf": {
+    "port": ":8080",
+    "logs_dir": "./logs/",
+    "ssl_cert": "(only required if is_ssl is true)",
+    "ssl_priv_key": "(only required if is_ssl is true)",
+    "is_ssl": false
+  }, 
+  "mariadb_conf": {
+    "username": "(DB flavour can only be MySQL or MariaDB)",
+    "passw": "",
+    "net": "",
+    "addr": "",
+    "db_name": ""
+  },
+  "duffel": {
+    "key": "(Needs to be made at https://duffel.com/"
+  },
+  "files": {
+    "dir": "./static/"
+  }
+}
