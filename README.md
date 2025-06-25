@@ -10,7 +10,7 @@ Check it out at [https://sky-sherpa.com](https://sky-sherpa.com) (currently, the
 
 ## Developing
 
-To get the project running, navigate to the ./static/ folder and run:
+To get the project running, navigate to the ./static/ folder, install the NPM packages and run:
 
 ```
 npm run dev

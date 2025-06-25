@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"sky_save/internal/config"
 
 	"github.com/go-sql-driver/mysql"
@@ -10,8 +11,10 @@ import (
 
 var db *sql.DB
 
+// Initialises the database connection.
+//
+// Should only be called once and the connection kept open.
 func Init(Config config.MariaDbConf) error {
-	// Should only be called once and the connection kept open
 
 	cfg := mysql.Config{
 		User:                 Config.UserName,
@@ -31,6 +34,12 @@ func Init(Config config.MariaDbConf) error {
 
 	if err := db.Ping(); err != nil {
 		return fmt.Errorf("Database failed to ping\n%v", err)
+	}
+
+	err = Migration()
+
+	if err != nil {
+		log.Fatalf("Database migration failed, error below: \n %v", err)
 	}
 
 	return nil
