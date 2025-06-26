@@ -19,9 +19,6 @@ var client = http.Client{
 }
 
 func Request(method string, url string, Header http.Header, body string) ([]byte, error) {
-	var start time.Time = time.Now()
-
-	fmt.Println(body)
 
 	req, err := http.NewRequest(method, url, bytes.NewReader([]byte(body)))
 
@@ -48,10 +45,6 @@ func Request(method string, url string, Header http.Header, body string) ([]byte
 	unzippedBody, _ := gzip.NewReader(res.Body)
 
 	bodyAsBytes, _ := io.ReadAll(unzippedBody)
-
-	fmt.Printf("Took %v to complete and return call.\n", time.Since(start))
-
-	fmt.Printf("body: %v", string(bodyAsBytes))
 
 	return bodyAsBytes, nil
 }

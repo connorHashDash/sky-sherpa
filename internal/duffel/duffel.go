@@ -3,6 +3,7 @@ package duffel
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"sky_save/internal/requestbuilder"
 )
@@ -73,4 +74,25 @@ func FlightSearch(OfferRequest OfferRequest) (*OffersResponse, error) {
 	json.Unmarshal(resp, &OffersResponse)
 
 	return &OffersResponse, nil
+}
+
+// The function to enable the ability to retrieve specific flights from the Duffel API.
+//
+// Will recieve a list of ID's and return the flights back.
+func GetSpecificFlights(flights []SpecificFlight) {
+	for _, val := range flights {
+		_, err := requestbuilder.Request(http.MethodGet, `https://api.duffel.com/air/offers/`+val.FlightID, // need to use bytes
+			http.Header{
+				"Accept-Encoding": {"gzip"},
+				"Authorization":   {duffelKey},
+				"Duffel-Version":  {"v2"},
+				"Accept":          {"application/json"},
+			}, string(""))
+
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+	}
 }

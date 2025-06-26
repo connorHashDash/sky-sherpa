@@ -151,3 +151,9 @@ type Passenger struct {
 	GivenName  interface{} `json:"given_name"`
 	FamilyName interface{} `json:"family_name"`
 }
+
+// Struct for requesting specific flights
+
+type SpecificFlight struct {
+	FlightID string `json:"flight_id"`
+}
